@@ -1,0 +1,23 @@
+{
+  "name": "next-blog",
+  "description": "A simple blog app build with Next.js",
+  "author": {
+    "email": "grpit.github@gmail.com",
+    "name": "Arpit Gupta"
+  },
+  "repository": {
+    "url": "git@github.com:grpit/blog.git"
+  },
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start"
+  },
+  "dependencies": {
+    "next": "10.0.4",
+    "react": "17.0.1",
+    "react-dom": "17.0.1"
+  }
+}

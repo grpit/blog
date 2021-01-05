@@ -1,0 +1,50 @@
+{
+  "env": {
+    "browser": true,
+    "es2021": true,
+    "jest": true,
+    "node": true
+  },
+  "extends": [
+    "plugin:react/recommended",
+    "airbnb-typescript",
+    "prettier/@typescript-eslint",
+    "prettier/react",
+    "plugin:react-hooks/recommended",
+    "plugin:prettier/recommended"
+  ],
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "ecmaFeatures": {
+      "jsx": true
+    },
+    "ecmaVersion": 12,
+    "project": "./tsconfig.json",
+    "sourceType": "module"
+  },
+  "plugins": [
+    "react",
+    "jest",
+    "react",
+    "@typescript-eslint"
+  ],
+  "rules": {
+    "react/react-in-jsx-scope": "off",
+    "jsx-quotes": "off",
+    "react/jsx-props-no-spreading": "off",
+    "@typescript-eslint/comma-dangle": "off"
+  },
+  "settings": {
+    "import/parsers": {
+      "@typescript-eslint/parser": [
+        ".js",
+        ".jsx",
+        ".ts",
+        ".tsx"
+      ]
+    },
+    "react": {
+      "version": "detect"
+    }
+  }
+}

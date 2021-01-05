@@ -39,6 +39,7 @@
     "@types/react": "^17.0.0",
     "@types/react-dom": "^17.0.0",
     "@typescript-eslint/eslint-plugin": "^4.11.1",
+    "autoprefixer": "^10.1.0",
     "eslint": "^7.17.0",
     "eslint-config-airbnb-typescript": "^12.0.0",
     "eslint-plugin-import": "^2.22.1",
@@ -46,8 +47,10 @@
     "eslint-plugin-react-hooks": "^4.2.0",
     "husky": "^4.3.6",
     "lint-staged": "^10.5.3",
+    "postcss-preset-env": "^6.7.0",
     "prettier": "^2.2.1",
     "prettier-eslint-cli": "^5.0.0",
+    "tailwindcss": "^2.0.2",
     "typescript": "^4.1.3"
   }
 }

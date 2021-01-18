@@ -7,15 +7,14 @@ type AdditionalLinkProps = {
 };
 type LinkType = LinkProps & AdditionalLinkProps;
 
-const Link: FC<LinkType> = ({ className, style, ...props }) => {
-  const baseClassName: string = 'cursor-pointer ';
-  const finalClassName: string = className
-    ? baseClassName + className
-    : baseClassName;
+const Link: FC<LinkType> = ({ className = '', style, ...props }) => {
+  const baseClassName = 'cursor-pointer text-secondary';
+  const finalClassName = `${baseClassName} ${className}`;
+
   return (
-    <div className={finalClassName} style={style}>
+    <span className={finalClassName} style={style}>
       <NextLink {...props} />
-    </div>
+    </span>
   );
 };
 

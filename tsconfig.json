@@ -24,10 +24,13 @@
   "include": [
     "next-env.d.ts",
     "**/*.ts",
-    "**/*.tsx",
-    "**/*.js"
+    "**/*.tsx"
   ],
   "exclude": [
-    "node_modules"
+    "node_modules",
+    "dist",
+    ".next",
+    "out",
+    "next.config.js"
   ]
 }

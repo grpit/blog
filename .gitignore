@@ -33,4 +33,11 @@ yarn-error.log*
 # vercel
 .vercel
 
+#editors
 .vscode
+.idea
+
+#typeorm
+build/
+tmp/
+temp/

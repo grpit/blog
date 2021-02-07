@@ -1,10 +1,11 @@
+import Link from 'components/link';
 import { FC } from 'react';
 
 interface BlogDetailProps {
   title: string;
   author: {
-    firstname: string;
-    lastname: string;
+    name: string;
+    link: string;
   };
   publishDate: string;
   content: string;
@@ -24,7 +25,7 @@ const BlogDetail: FC<BlogDetailProps> = ({
         </div>
         <div className='px-2 text-subtitle'>
           <span>
-            {`${author.firstname} ${author.lastname}`}, {publishDate}
+            <Link href={author.link}>{author.name}</Link>, {publishDate}
           </span>
         </div>
       </div>

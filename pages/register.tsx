@@ -1,4 +1,4 @@
-import PrimaryButton from 'components/botton/primary';
+import PrimaryButton from 'components/button/primary';
 import Input from 'components/input';
 import Link from 'components/link';
 import { FC } from 'react';

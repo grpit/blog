@@ -10,12 +10,14 @@
     "outDir": "./build",
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
+    "strictPropertyInitialization": false,
     "sourceMap": true,
     "esModuleInterop": true
   },
   "exclude": [
     "node_modules",
-    "build"
+    "build",
+    "server/src/Migrations/"
   ],
   "include": ["server/**/*.ts"]
 }

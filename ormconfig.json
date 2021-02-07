@@ -5,14 +5,13 @@
   "username": "main",
   "password": "mainpasswd",
   "database": "blog_dev",
-  "synchronize": true,
   "logging": false,
-  "entities": ["src/entities/**/*.ts"],
-  "migrations": ["src/migrations/**/*.ts"],
-  "subscribers": ["src/subscribers/**/*.ts"],
+  "entities": ["server/src/Models/**/*.ts"],
+  "migrations": ["server/src/Migrations/**/*.ts"],
+  "subscribers": ["server/src/Subscribers/**/*.ts"],
   "cli": {
-    "entitiesDir": "src/entities",
-    "migrationsDir": "src/migrations",
-    "subscribersDir": "src/subscribers"
+    "entitiesDir": "server/src/Models",
+    "migrationsDir": "server/src/Migrations",
+    "subscribersDir": "server/src/Subscribers"
   }
 }

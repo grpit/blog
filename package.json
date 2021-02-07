@@ -12,10 +12,10 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "server-dev": "nodemon",
     "build": "next build",
-    "startorm": "ts-node server/src/index.ts",
     "start": "next start",
+    "server-dev": "nodemon",
+    "typeorm": "ts-node --project ./tsconfig.server.json ./node_modules/.bin/typeorm",
     "format": "prettier-eslint --write $PWD/'**/*.{ts,tsx,js}'",
     "lint": "eslint --ext .ts,.tsx,.js .",
     "test:coverage": "yarn-or-npm test --coverage",

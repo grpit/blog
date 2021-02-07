@@ -45,3 +45,6 @@ temp/
 # certificates
 *.crt
 *.key
+*.srl
+*.csr
+*.ext

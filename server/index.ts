@@ -1,60 +1,33 @@
 import 'reflect-metadata';
-// import path from 'path';
-// import fs from 'fs';
-import compression from 'compression';
-
+import fs from 'fs';
+import path from 'path';
 import next from 'next';
-// import spdy, { ServerOptions } from 'spdy';
-import express, { Request, Response } from 'express';
-// import { createConnection } from 'typeorm';
-import morgan from 'morgan';
+import spdy, { ServerOptions } from 'spdy';
 
-const port = parseInt(process.env.PORT ?? '3000', 10);
-const dev = process.env.NODE_ENV !== 'production';
+import server from './server';
+import database from './database';
 
-const app = next({ dev });
-// const handle = app.getRequestHandler();
+const PORT = parseInt(process.env.PORT ?? '3000', 10);
+const DEV = process.env.NODE_ENV !== 'production';
 
-const shouldCompress = (req: Request, res: Response) => {
-  // should not compress if header is set.
-  if (req.headers['x-no-compression']) {
-    return false;
-  }
-  return compression.filter(req, res);
+const app = next({ dev: DEV });
+
+const options: ServerOptions = {
+  key: fs.readFileSync(path.join(__dirname, '/localhost.key')),
+  cert: fs.readFileSync(path.join(__dirname, '/localhost.crt'))
 };
 
-// const options = {
-//   key: fs.readFileSync(path.join(__dirname, '/privateKey.key')),
-//   cert: fs.readFileSync(path.join(__dirname, '/certificate.crt'))
-// };
-
 app.prepare().then(() => {
-  const expressApp = express();
-
-  // Express Middlewares
-  expressApp.use(express.json());
-  expressApp.use(morgan('dev'));
-  expressApp.use(compression({ filter: shouldCompress }));
-
-  // Express Routes config
-  expressApp.get('/api/', (req: Request, res: Response) => {
-    res.send('hello');
-  });
-
   // fallback all request to next request handler
-  expressApp.all('*', (req, res) => {
+  server.all('*', (req, res) => {
     // @ts-ignore-next-line
     return app.render(req, res, req.path, req.query);
   });
 
-  expressApp.listen(port, () => {
-    // eslint-ignore-next-line
-    console.log('running');
+  database.connect().then(() => {
+    spdy.createServer(options, server).listen(PORT, () => {
+      // eslint-disable-next-line
+      console.log(`HTTP/2 server listening on port: ${PORT}`);
+    });
   });
-
-  // createConnection().then(() => {
-  //   spdy.createServer(options, expressApp).listen(port, () => {
-  //     console.log(`HTTP/2 server listening on port: ${port}`);
-  //   });
-  // });
 });

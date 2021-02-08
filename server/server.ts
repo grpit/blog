@@ -1,6 +1,7 @@
 import express, { Request, Response } from 'express';
 import compression from 'compression';
 import morgan from 'morgan';
+import router from './src/Router';
 
 const app = express();
 
@@ -17,9 +18,6 @@ app.use(express.json());
 app.use(morgan('dev'));
 app.use(compression({ filter: shouldCompress }));
 
-// Express Routes config
-app.get('/api/', (req: Request, res: Response) => {
-  res.send('hello');
-});
+app.use('/api', router);
 
 export default app;

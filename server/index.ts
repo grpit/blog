@@ -17,17 +17,17 @@ const options: ServerOptions = {
   cert: fs.readFileSync(path.join(__dirname, '/localhost.crt'))
 };
 
-app.prepare().then(() => {
-  // fallback all request to next request handler
+(async () => {
+  await app.prepare();
+  await database.connect();
+
+  // @ts-ignore
   server.all('*', (req, res) => {
-    // @ts-ignore-next-line
-    return app.render(req, res, req.path, req.query);
+    return app.render(req, res, req.path);
   });
 
-  database.connect().then(() => {
-    spdy.createServer(options, server).listen(PORT, () => {
-      // eslint-disable-next-line
-      console.log(`HTTP/2 server listening on port: ${PORT}`);
-    });
+  spdy.createServer(options, server).listen(PORT, () => {
+    // eslint-disable-next-line
+    console.log(`HTTP/2 server listening on port: ${PORT}`);
   });
-});
+})();

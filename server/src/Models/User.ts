@@ -1,10 +1,14 @@
 import {
+  BeforeInsert,
   Column,
   CreateDateColumn,
   Entity,
   OneToMany,
   PrimaryGeneratedColumn
 } from 'typeorm';
+
+import argon from 'argon2';
+
 import { Post } from './Post';
 
 @Entity()
@@ -26,4 +30,20 @@ export class User {
 
   @CreateDateColumn()
   createdAt: string;
+
+  constructor(username: string, email: string, password: string) {
+    this.email = email;
+    this.username = username;
+    this.password = password;
+  }
+
+  @BeforeInsert()
+  async hashPassword() {
+    this.password = await argon.hash(this.password, { type: argon.argon2id });
+  }
+
+  verify(password: string): User | boolean {
+    if (argon.verify(this.password, password)) return this;
+    return false;
+  }
 }

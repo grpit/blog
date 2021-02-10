@@ -28,10 +28,10 @@ export class Post {
   slug: string;
 
   @Column()
-  likes: string;
+  likes: number;
 
   @Column()
-  views: string;
+  views: number;
 
   @Column()
   readTime: number;
@@ -47,13 +47,15 @@ export class Post {
   author: number;
 
   @BeforeInsert()
-  createSlug() {
+  setDefaults() {
     this.slug = this.title.replace(' ', '_').toLowerCase();
+    this.readTime = this.calculateReadTime(this.content);
+    this.likes = 0;
+    this.views = 0;
   }
 
-  @BeforeInsert()
-  calculateReadTime() {
-    this.readTime = 5;
+  calculateReadTime(content: string) {
+    return 5;
   }
 
   @AfterLoad()

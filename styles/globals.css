@@ -3,3 +3,33 @@
 @tailwind components;
 /* purgecss end ignore */
 @tailwind utilities;
+
+.h-full-14 {
+  height: calc(100% - 3.5rem);
+}
+
+.postContent {
+  font-family: inherit !important;
+  line-height: 1.5 im !important;
+}
+
+.inlineTooltip-button.control {
+  padding-top: 1px !important;
+}
+
+svg.icon-photo {
+  margin-left: 4px;
+}
+
+svg.icon-embed {
+  margin-left: 5px;
+}
+
+svg.icon-video {
+  margin-left: 5px;
+}
+
+.graf--pre,
+.public-DraftStyleDefault-pre {
+  margin-top: 20px;
+}

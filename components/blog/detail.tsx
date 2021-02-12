@@ -1,5 +1,6 @@
 import Link from 'components/link';
 import { FC } from 'react';
+import Dante from 'Dante2';
 
 interface BlogDetailProps {
   title: string;
@@ -8,7 +9,7 @@ interface BlogDetailProps {
     link: string;
   };
   publishDate: string;
-  content: string;
+  content: object;
 }
 
 const BlogDetail: FC<BlogDetailProps> = ({
@@ -29,8 +30,8 @@ const BlogDetail: FC<BlogDetailProps> = ({
           </span>
         </div>
       </div>
-      <div className='bg-white shadow-sm px-8 py-4 text-primary-text'>
-        {content}
+      <div className='bg-white shadow-sm px-8 py-4'>
+        <Dante content={content} read_only={true} />
       </div>
     </div>
   );

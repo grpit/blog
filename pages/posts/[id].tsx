@@ -8,8 +8,56 @@ const defaultBlog = {
     link: 'https://google.com'
   },
   publishDate: '20 Jan 2020',
-  content:
-    'Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatem, cupiditate ipsum, enim nostrum numquam iusto repellat eius molestiae commodi quae veniam suscipit harum itaque eum, dicta maiores necessitatibus rem tenetur?'
+  content: {
+    blocks: [
+      {
+        key: 'cec3i',
+        text: 'asdsaxZ',
+        type: 'unstyled',
+        depth: 0,
+        inlineStyleRanges: [],
+        entityRanges: [],
+        data: {}
+      },
+      {
+        key: 'hvmr',
+        text: ' This is a good Example',
+        type: 'ordered-list-item',
+        depth: 0,
+        inlineStyleRanges: [],
+        entityRanges: [],
+        data: {}
+      },
+      {
+        key: '8s2bv',
+        text: 'asasas Come on this is good',
+        type: 'blockquote',
+        depth: 0,
+        inlineStyleRanges: [],
+        entityRanges: [],
+        data: {}
+      },
+      {
+        key: 'elf52',
+        text: '',
+        type: 'unstyled',
+        depth: 0,
+        inlineStyleRanges: [],
+        entityRanges: [],
+        data: {}
+      },
+      {
+        key: 'ep0lp',
+        text: 'console.log',
+        type: 'code-block',
+        depth: 0,
+        inlineStyleRanges: [],
+        entityRanges: [],
+        data: {}
+      }
+    ],
+    entityMap: {}
+  }
 };
 
 const BlogPage: FC = () => {

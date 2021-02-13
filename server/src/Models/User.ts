@@ -10,6 +10,7 @@ import {
 import argon from 'argon2';
 
 import { Post } from './Post';
+import { Draft } from './Draft';
 
 @Entity()
 export class User {
@@ -27,6 +28,9 @@ export class User {
 
   @OneToMany(() => Post, (post) => post.author)
   posts: Post[];
+
+  @OneToMany(() => Draft, (draft) => draft.author)
+  drafts: Draft[];
 
   @CreateDateColumn()
   createdAt: string;

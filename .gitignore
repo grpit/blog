@@ -48,3 +48,6 @@ temp/
 *.srl
 *.csr
 *.ext
+
+# Todo files
+*.todo

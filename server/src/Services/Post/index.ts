@@ -21,6 +21,7 @@ export default class PostService {
     id: number,
     postData: any
   ): Promise<any | Error> => {
+    // Todo: get user and check if same as author.
     const { affected } = await this.postRepository.update(id, postData);
     if (!affected) {
       return Error(`Could not update post with specified id:${id}.`);
@@ -38,6 +39,7 @@ export default class PostService {
   };
 
   public deletePost = async (id: number): Promise<ObjectLiteral | Error> => {
+    // Todo: get user and check if same as author.
     const post = await this.postRepository.delete(id);
     if (!post) {
       return Error(`Post with specified id:${id} not found.`);

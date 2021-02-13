@@ -1,9 +1,6 @@
 {
   "compilerOptions": {
-    "lib": [
-      "es5",
-      "es6"
-    ],
+    "lib": ["es5", "es6"],
     "target": "es5",
     "module": "commonjs",
     "moduleResolution": "node",
@@ -12,12 +9,9 @@
     "experimentalDecorators": true,
     "strictPropertyInitialization": false,
     "sourceMap": true,
-    "esModuleInterop": true
+    "esModuleInterop": true,
+    "typeRoots": ["@types", "../node_modules/@types"]
   },
-  "exclude": [
-    "node_modules",
-    "build",
-    "server/src/Migrations/"
-  ],
-  "include": ["server/**/*.ts"]
+  "exclude": ["build", "src/Migrations/"],
+  "include": ["**/*.ts"]
 }

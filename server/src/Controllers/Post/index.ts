@@ -14,26 +14,17 @@ export default class PostController {
   };
 
   public put = async (req: Request, res: Response) => {
-    // Todo: Check for current user same as author
-    //* maybe pass the user/userId to service.
     const id = parseInt(req.params.id, 10);
     const postData = req.body;
-    const response = await this.postService.updatePost(id, postData);
-    res.json(response);
-  };
-
-  public post = async (req: Request, res: Response) => {
-    // Todo: set current user as the author in postData
-    const postData = req.body;
-    const response = await this.postService.createPost(postData);
+    const user = req.user;
+    const response = await this.postService.updatePost(id, postData, user);
     res.json(response);
   };
 
   public delete = async (req: Request, res: Response) => {
-    // Todo: Check for current user same as author
-    //* maybe pass the user/userId to service.
     const id = parseInt(req.params.id, 10);
-    const response = await this.postService.deletePost(id);
+    const user = req.user;
+    const response = await this.postService.deletePost(id, user);
     res.json(response);
   };
 

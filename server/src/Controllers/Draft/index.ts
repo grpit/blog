@@ -14,25 +14,30 @@ export default class PostController {
   };
 
   public put = async (req: Request, res: Response) => {
-    // Todo: add user to update service.
     const hash = req.params.hash;
     const draftData = req.body;
+    const user = req.user;
 
-    const response = await this.draftService.updateDraft(hash, draftData);
+    const response = await this.draftService.updateDraft(hash, draftData, user);
     res.json(response);
   };
 
   public post = async (req: Request, res: Response) => {
-    // Todo: add user to create service.
     const hash = req.query.hash as string;
-    const response = await this.draftService.createDraft({ hash });
+    const user = req.user;
+
+    const response = await this.draftService.createDraft({
+      hash,
+      author: user?.id
+    });
     res.json(response);
   };
 
   public publish = async (req: Request, res: Response) => {
-    // Todo: add user to publish service.
     const hash = req.query.hash as string;
-    const response = await this.draftService.publishDraft(hash);
+    const user = req.user;
+
+    const response = await this.draftService.publishDraft(hash, user);
     res.json(response);
   };
 

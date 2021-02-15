@@ -6,16 +6,26 @@ import { User } from '../../../types';
 import PostService from '../Post';
 import DraftRepository from '../../Repository/Draft';
 import { Draft } from '../../Models/Draft';
+import UserRepository from '../../Repository/User';
 
 interface ICreateDraft {
   hash: string;
-  // author: number
+  author: number;
+}
+
+interface IUpdateDraft {
+  title?: string;
+  description?: string;
+  content?: object;
 }
 
 @Service()
 export default class DraftService {
   @InjectRepository(DraftRepository)
   private readonly draftRepository: DraftRepository;
+
+  @InjectRepository(UserRepository)
+  private readonly userRepository: UserRepository;
 
   @Inject()
   private readonly postService: PostService;
@@ -30,21 +40,34 @@ export default class DraftService {
 
   public updateDraft = async (
     hash: string,
-    draftData: any
+    draftData: IUpdateDraft,
+    user: User
   ): Promise<any | Error> => {
-    // Todo: get user and check if same as author.
+    const existingUser = await this.userRepository.getById(user?.id);
+    const existingDraft = await this.draftRepository.getByHash(hash);
+
+    if (!existingUser) {
+      return Error(`Invalid User passed in the cookie.`);
+    }
+    if (!existingDraft) {
+      return Error(`Draft with the given ID does not exist.`);
+    }
+    if (existingUser.id !== existingDraft.author) {
+      return Error(`You are not authorised to make this request.`);
+    }
+
     const { affected } = await this.draftRepository.update(hash, draftData);
     if (!affected) {
       return Error(`Could not update draft with specified hash:${hash}.`);
     }
+
     return { updated: !!affected };
   };
 
   public createDraft = async (
     draftData: ICreateDraft
   ): Promise<ObjectLiteral | Error> => {
-    // Todo: get user in ICreateDraft.
-    let draft = await this.draftRepository.create(draftData);
+    let draft = this.draftRepository.create(draftData);
     draft = await this.draftRepository.save(draft);
     if (!draft) {
       return Error(`Could not create Draft, invalid data provided.`);
@@ -53,15 +76,23 @@ export default class DraftService {
   };
 
   public publishDraft = async (
-    hash: string
+    hash: string,
+    user: User
   ): Promise<ObjectLiteral | Error> => {
     const draft = await this.draftRepository.getByHash(hash);
+    const existingUser = await this.userRepository.getById(user?.id);
 
-    // Todo: Add auth to check if creator is same as publisher/currentUser.
-    if (!draft) return Error(`No draft to publish`);
+    if (!existingUser) {
+      return Error(`Invalid User passed in the cookie.`);
+    }
+    if (!draft) {
+      return Error(`Draft with the given ID does not exist.`);
+    }
+    if (existingUser.id !== draft.author) {
+      return Error(`You are not authorised to make this request.`);
+    }
 
     const { title, description, content, author } = draft;
-
     const postData = {
       title,
       description,
@@ -69,7 +100,6 @@ export default class DraftService {
       author
     };
     const post = await this.postService.createPost(postData);
-
     return post;
   };
 

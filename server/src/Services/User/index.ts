@@ -25,10 +25,7 @@ export default class UserService {
     email,
     password
   }: UserLoginParams): Promise<User | Error> => {
-    const user = await this.userRepository.findOne({
-      where: [{ username }, { email }],
-      select: ['username', 'email', 'id']
-    });
+    const user = await this.userRepository.getForLogin(username, email);
 
     if (!user || !user.verify(password)) throw Error('Something Went Wrong');
     return user;

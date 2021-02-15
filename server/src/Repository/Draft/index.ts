@@ -13,6 +13,6 @@ export default class DraftRepository extends Repository<Draft> {
   }
 
   getByUser(user: User) {
-    return this.find({ author: user.id });
+    return this.find({ author: user?.id });
   }
 }

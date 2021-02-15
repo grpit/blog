@@ -108,3 +108,14 @@ export function getUserFromCookie(
   }
   next();
 }
+
+export function authRequired(req: Request, res: Response, next: NextFunction) {
+  if (req.user?.id) {
+    next();
+  } else {
+    res.status(401).json({
+      success: false,
+      message: 'Unauthorized. The user is not allowed to perform this action.'
+    });
+  }
+}

@@ -1,6 +1,7 @@
 import { Container } from 'typedi';
 import { Router } from 'express';
 import PostController from '../../Controllers/Post';
+import { authRequired } from '../../Middlewares/Auth';
 
 const router = Router();
 
@@ -9,17 +10,12 @@ router.get('/:id', (req, res) => {
   return postController.get(req, res);
 });
 
-router.post('/', (req, res) => {
-  const postController = Container.get(PostController);
-  return postController.post(req, res);
-});
-
-router.delete('/:id', (req, res) => {
+router.delete('/:id', authRequired, (req, res) => {
   const postController = Container.get(PostController);
   return postController.delete(req, res);
 });
 
-router.put('/:id', (req, res) => {
+router.put('/:id', authRequired, (req, res) => {
   const postController = Container.get(PostController);
   return postController.put(req, res);
 });

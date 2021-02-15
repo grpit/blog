@@ -21,8 +21,8 @@ export class Post {
   @Column({ type: 'varchar', length: 100 })
   description: string;
 
-  @Column({ type: 'varchar', length: 255 })
-  content: string;
+  @Column({ type: 'json' })
+  content: object;
 
   @Column({ type: 'varchar', length: 100, unique: true })
   slug: string;
@@ -54,7 +54,7 @@ export class Post {
     this.views = 0;
   }
 
-  calculateReadTime(content: string) {
+  calculateReadTime(content: object) {
     return 5;
   }
 

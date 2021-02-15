@@ -10,28 +10,35 @@ export default class UserController {
 
   public login = async (req: Request, res: Response) => {
     const { username, password, email } = req.body;
-
+    // Todo: Add validations.
     const result = await this.service.login({ username, password, email });
+
     if (result instanceof Error) {
-      return res
-        .status(401)
-        .json({ success: false, message: 'Invalid Credentials Provided.' });
+      return res.status(401).json({ success: false, message: result.message });
     }
+
     return setAuthCookie(result, res).json({
-      message: 'Authentication Successful',
-      success: true,
-      data: null
+      success: true
     });
   };
 
   public register = async (req: Request, res: Response) => {
     const { username, email, password, confirmPassword } = req.body;
-
+    // Todo: Add validations.
     if (password !== confirmPassword) {
-      return res.status(400).json({ error: `Passwords don't match` });
+      return res.status(400).json({ error: `Passwords don't match.` });
     }
 
     const result = await this.service.register({ username, email, password });
-    return res.json(result);
+
+    if (result instanceof Error) {
+      return res.status(400).json({ success: false, message: result.message });
+    }
+
+    return res.json({
+      id: result.id,
+      username: result.username,
+      email: result.email
+    });
   };
 }

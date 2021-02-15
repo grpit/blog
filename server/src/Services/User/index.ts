@@ -25,9 +25,11 @@ export default class UserService {
     email,
     password
   }: UserLoginParams): Promise<User | Error> => {
+    // Todo: Add validations.
     const user = await this.userRepository.getForLogin(username, email);
 
-    if (!user || !user.verify(password)) throw Error('Something Went Wrong');
+    if (!user || !user.verify(password))
+      throw Error('Invalid Username or Password.');
     return user;
   };
 
@@ -35,9 +37,12 @@ export default class UserService {
     username,
     email,
     password
-  }: UserRegisterParams): Promise<User> => {
+  }: UserRegisterParams): Promise<User | Error> => {
+    // Todo: Add validations.
     const user = new User(username, email, password);
     const userData = await this.userRepository.save(user);
+    if (!userData)
+      return Error(`Could not log you in check in after some time.`);
     return userData;
   };
 }

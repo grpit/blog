@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import UserService from '../../Services/User';
 import { Inject, Service } from 'typedi';
+import { setAuthCookie } from '../../Middlewares/Auth';
 
 @Service()
 export default class UserController {
@@ -11,8 +12,16 @@ export default class UserController {
     const { username, password, email } = req.body;
 
     const result = await this.service.login({ username, password, email });
-
-    return res.json(result);
+    if (result instanceof Error) {
+      return res
+        .status(401)
+        .json({ success: false, message: 'Invalid Credentials Provided.' });
+    }
+    return setAuthCookie(result, res).json({
+      message: 'Authentication Successful',
+      success: true,
+      data: null
+    });
   };
 
   public register = async (req: Request, res: Response) => {

@@ -1,7 +1,10 @@
 import express, { Request, Response } from 'express';
 import compression from 'compression';
 import morgan from 'morgan';
+import cookieParser from 'cookie-parser';
+
 import router from './src/Router';
+import { getUserFromCookie } from './src/Middlewares/Auth';
 
 const app = express();
 
@@ -13,10 +16,14 @@ const shouldCompress = (req: Request, res: Response) => {
   return compression.filter(req, res);
 };
 
-// Express Middlewares
+// Express Base Middlewares
 app.use(express.json());
+app.use(cookieParser());
 app.use(morgan('dev'));
 app.use(compression({ filter: shouldCompress }));
+
+// Express custom Middleware
+app.use(getUserFromCookie);
 
 app.use('/api', router);
 

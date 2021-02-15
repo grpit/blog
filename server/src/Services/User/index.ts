@@ -26,12 +26,11 @@ export default class UserService {
     password
   }: UserLoginParams): Promise<User | Error> => {
     const user = await this.userRepository.findOne({
-      where: [{ username }, { email }]
+      where: [{ username }, { email }],
+      select: ['username', 'email', 'id']
     });
 
-    if (!user) throw Error('Something Went Wrong');
-    if (!user.verify(password)) throw Error('Something Went Wrong');
-
+    if (!user || !user.verify(password)) throw Error('Something Went Wrong');
     return user;
   };
 

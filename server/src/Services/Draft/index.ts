@@ -100,10 +100,13 @@ export default class DraftService {
       author
     };
     const post = await this.postService.createPost(postData);
+    // Todo: Set draft as published.
+    // Todo: Publish only if not published already.
     return post;
   };
 
   public getMyDraft = async (user: User): Promise<Draft[] | Error> => {
+    // Todo: remove published drafts from list.
     const drafts = await this.draftRepository.getByUser(user);
     return drafts;
   };

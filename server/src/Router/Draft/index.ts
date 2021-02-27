@@ -19,7 +19,7 @@ router.put('/:hash', (req, res) => {
   return draftController.put(req, res);
 });
 
-router.post('/publish/:hash', (req, res) => {
+router.post('/publish', (req, res) => {
   const draftController = Container.get(DraftController);
   return draftController.publish(req, res);
 });

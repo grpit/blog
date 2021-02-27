@@ -1,32 +1,78 @@
 import { useState, useEffect, ChangeEvent, FC } from 'react';
 import Dante from 'Dante2';
+import { useRouter } from 'next/router';
+
 import useDebouce from 'utils/useDebounce';
 import PrimaryButton from 'components/button/primary';
 import AuthGuard from 'utils/authGuard';
+import axios from 'utils/axios';
+import generateHash from 'utils/generateHash';
+import getQueryParams from 'utils/getQuery';
 
 const CreatePost: FC = () => {
-  const [title, setTitle] = useState(String);
+  const [title, setTitle] = useState<string>('');
+  const [hash, setHash] = useState<string>('');
   // Todo: Get content from server side props and use it as default for content
-  const [content, setContent] = useState('');
+  const [content, setContent] = useState<any>('');
   const debouncedTitle = useDebouce(title, 1500);
+  const debouncedContent = useDebouce(content, 1500);
 
-  // const createDraftHash = () => {
-  // Todo: Create draft hash and append it as query param, this will then be used to reference the draft and load draft data.
-  // };
+  const router = useRouter();
 
-  const saveDraftTitle = () => {
-    // Todo: Implement save call to save draft title
-    // console.log(title)
+  const getOrCreateDraftHash = async () => {
+    try {
+      let { ___genpath: draftHash } = getQueryParams();
+      if (!draftHash) {
+        // Todo: pass username to generate hash
+        draftHash = generateHash('').toString();
+        await axios.post(`/draft/?hash=${draftHash}`);
+      }
+      setHash(draftHash);
+    } catch (error) {
+      console.error(error);
+      return false;
+    }
+    return true;
   };
 
-  const saveDraftContent = (editorContext: any, draftContent: any) => {
-    // Todo: Implement call to save draft content.
-    // elsint-disable-next-line
-    console.log(draftContent);
+  const saveDraftTitle = async () => {
+    if (title) {
+      try {
+        await axios.put(`/draft/${hash}/`, {
+          title
+        });
+      } catch (error) {
+        console.error(error);
+        return false;
+      }
+    }
+    return true;
   };
 
-  const publishDraft = () => {
-    // Todo: Implement method to publish the saved draft
+  const saveDraftContent = async () => {
+    if (content?.blocks?.length && title) {
+      try {
+        await axios.put(`/draft/${hash}/`, {
+          title,
+          content
+        });
+      } catch (error) {
+        console.error(error);
+        return false;
+      }
+    }
+    return true;
+  };
+
+  const publishDraft = async () => {
+    try {
+      await saveDraftContent();
+      await axios.post(`/draft/publish/?hash=${hash}`);
+    } catch (error) {
+      console.error(error);
+      return false;
+    }
+    return router.push('/');
   };
 
   const setTitleWithLimit = (event: ChangeEvent<HTMLInputElement>) => {
@@ -44,6 +90,14 @@ const CreatePost: FC = () => {
   useEffect(() => {
     saveDraftTitle();
   }, [debouncedTitle]);
+
+  useEffect(() => {
+    getOrCreateDraftHash();
+  }, []);
+
+  useEffect(() => {
+    saveDraftContent();
+  }, [debouncedContent]);
 
   return (
     <div>
@@ -83,17 +137,6 @@ const CreatePost: FC = () => {
             { className: 'text-primary-text graf--bold', block: 'BOLD' },
             { className: 'text-primary-text graf--italic', block: 'ITALIC' }
           ]}
-          data_storage={{
-            success_handler: () => {},
-            failure_handler: () => {},
-            url: `/draft/123`,
-            method: 'POST',
-            interval: 1500,
-            save_handler: saveDraftContent,
-            withCredentials: false,
-            crossDomain: false,
-            headers: {}
-          }}
           onChange={setDraftContent}
         />
       </div>

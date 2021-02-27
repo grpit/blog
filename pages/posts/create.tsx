@@ -1,9 +1,10 @@
-import { useState, useEffect, ChangeEvent } from 'react';
+import { useState, useEffect, ChangeEvent, FC } from 'react';
 import Dante from 'Dante2';
 import useDebouce from 'utils/useDebounce';
 import PrimaryButton from 'components/button/primary';
+import AuthGuard from 'utils/authGuard';
 
-export default function CreatePost() {
+const CreatePost: FC = () => {
   const [title, setTitle] = useState(String);
   // Todo: Get content from server side props and use it as default for content
   const [content, setContent] = useState('');
@@ -103,4 +104,8 @@ export default function CreatePost() {
       </div>
     </div>
   );
-}
+};
+
+export default CreatePost;
+
+export const getServerSideProps = AuthGuard;

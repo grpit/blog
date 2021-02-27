@@ -1,5 +1,5 @@
 import axios from 'axios';
-import router from 'next/router';
+import { useRouter } from 'next/router';
 import { ChangeEvent, FC, useState } from 'react';
 
 import Link from 'components/link';
@@ -11,6 +11,8 @@ const Login: FC = () => {
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [confirm, setConfirm] = useState<string>('');
+
+  const router = useRouter();
 
   const register = async () => {
     try {
